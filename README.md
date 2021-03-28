@@ -41,6 +41,7 @@ Settings > Player > Player Preset > MPV
 * flatpak
 * flatpak-builder
 * git
+* make
 
 ```
 git clone https://github.com/FaithBeam/flatpak-streamlink-twitch-gui
