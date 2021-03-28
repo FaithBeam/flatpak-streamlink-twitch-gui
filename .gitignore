@@ -1,0 +1,4 @@
+.flatpak-builder/
+repo/
+streamlink-twitch-gui/
+*.flatpak

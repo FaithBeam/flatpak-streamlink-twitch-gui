@@ -1,0 +1,149 @@
+app-id: io.github.streamlink-twitch-gui
+runtime: org.freedesktop.Platform
+runtime-version: "20.08"
+branch: stable
+sdk: org.freedesktop.Sdk
+base: io.atom.electron.BaseApp
+base-version: stable
+command: streamlink-twitch-gui
+finish-args: 
+  - --socket=x11
+  - --share=ipc
+  - --device=dri
+  - --socket=pulseaudio
+  - --share=network
+modules:
+  - name: streamlink
+    build-options:
+        build-args: 
+          - --share=network
+    no-autogen: true
+    buildsystem: simple
+    build-commands:
+      - pip3 install --prefix /app --upgrade streamlink
+
+  - name: ffmpeg
+    no-autogen: true
+    config-opts:
+      - --disable-programs
+      - --disable-doc
+      - --prefix=/app
+    cleanup: 
+      - /share/ffmpeg
+    sources:
+      - type: git
+        url: https://github.com/FFmpeg/FFmpeg.git
+
+  - name: zlib
+    sources:
+      - type: git
+        url: https://github.com/madler/zlib.git
+
+  - name: freetype2
+    no-autogen: true
+    buildsystem: simple
+    build-commands:
+      - ./autogen.sh
+      - ./configure --prefix=/app
+      - make
+      - make install
+    sources:
+      - type: git
+        url: https://github.com/aseprite/freetype2
+
+  - name: fribidi
+    no-autogen: true
+    buildsystem: simple
+    build-commands:
+      - ./autogen.sh
+      - ./configure --prefix=/app
+      - make
+      - make install
+    sources:
+      - type: git
+        url: https://github.com/fribidi/fribidi
+
+  - name: libass
+    sources:
+      - type: git
+        url: https://github.com/libass/libass
+
+  - name: mpv
+    build-options:
+        build-args: 
+          - --share=network
+    no-autogen: true
+    buildsystem: simple
+    build-commands: 
+      - ./bootstrap.py
+      - ./waf configure --prefix=/app --disable-manpage-build --disable-debug-build
+      - ./waf
+      - ./waf install
+    sources:
+      - type: git
+        url: https://github.com/mpv-player/mpv
+  
+  - name: nodejs
+    cleanup:
+        - /include
+        - /share
+        - /app/lib/node_modules/npm/changelogs
+        - /app/lib/node_modules/npm/doc
+        - /app/lib/node_modules/npm/html
+        - /app/lib/node_modules/npm/man
+        - /app/lib/node_modules/npm/scripts
+    sources:
+      - type: archive
+        url: https://nodejs.org/download/release/latest-v14.x/node-v14.16.0.tar.xz
+        sha256: 4e7648a617f79b459d583f7dbdd31fbbac5b846d41598f3b54331a5b6115dfa6
+
+  - name: streamlink-twitch-gui
+    build-options:
+        build-args: 
+          - --socket=x11
+          - --share=ipc
+          - --device=dri
+          - --share=network
+    no-autogen: true
+    buildsystem: simple
+    build-commands: 
+      - npm install -g yarn
+      - yarn install
+      - yarn run grunt release
+      - mkdir -p /app/bin/
+      - install streamlink-twitch-gui.sh /app/bin/streamlink-twitch-gui
+      - mkdir -p /app/share/applications/
+      - install io.github.streamlink-twitch-gui.desktop /app/share/applications/io.github.streamlink-twitch-gui.desktop
+      - mkdir -p /app/share/streamlink-twitch-gui
+      - cp -r ./build/releases/streamlink-twitch-gui/linux64/ /app/share/streamlink-twitch-gui/
+      - mkdir -p /app/share/icons/hicolor/16x16/apps
+      - mkdir -p /app/share/icons/hicolor/32x32/apps
+      - mkdir -p /app/share/icons/hicolor/48x48/apps
+      - mkdir -p /app/share/icons/hicolor/64x64/apps
+      - mkdir -p /app/share/icons/hicolor/128x128/apps
+      - mkdir -p /app/share/icons/hicolor/256x256/apps
+      - install io.github.streamlink-twitch-gui-16.png /app/share/icons/hicolor/16x16/apps/io.github.streamlink-twitch-gui.png
+      - install io.github.streamlink-twitch-gui-32.png /app/share/icons/hicolor/32x32/apps/io.github.streamlink-twitch-gui.png
+      - install io.github.streamlink-twitch-gui-48.png /app/share/icons/hicolor/48x48/apps/io.github.streamlink-twitch-gui.png
+      - install io.github.streamlink-twitch-gui-64.png /app/share/icons/hicolor/64x64/apps/io.github.streamlink-twitch-gui.png
+      - install io.github.streamlink-twitch-gui-128.png /app/share/icons/hicolor/128x128/apps/io.github.streamlink-twitch-gui.png
+      - install io.github.streamlink-twitch-gui-256.png /app/share/icons/hicolor/256x256/apps/io.github.streamlink-twitch-gui.png
+    sources:
+      - type: git
+        url: https://github.com/streamlink/streamlink-twitch-gui
+      - type: file
+        path: streamlink-twitch-gui.sh
+      - type: file
+        path: io.github.streamlink-twitch-gui.desktop
+      - type: file
+        path: io.github.streamlink-twitch-gui-16.png
+      - type: file
+        path: io.github.streamlink-twitch-gui-32.png
+      - type: file
+        path: io.github.streamlink-twitch-gui-48.png
+      - type: file
+        path: io.github.streamlink-twitch-gui-64.png
+      - type: file
+        path: io.github.streamlink-twitch-gui-128.png
+      - type: file
+        path: io.github.streamlink-twitch-gui-256.png
