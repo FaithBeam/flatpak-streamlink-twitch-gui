@@ -38,6 +38,7 @@ Settings > Player > Player Preset > MPV
 
 ### Requirements
 
+* ~18GB of memory
 * flatpak
 * flatpak-builder
 * git
