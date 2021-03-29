@@ -9,7 +9,7 @@ Streamlink Twitch Gui, Streamlink, and Mpv in a flatpak.
 ## Install
 
 1. Download the latest flatpak from the [releases](https://github.com/FaithBeam/flatpak-streamlink-twitch-gui/releases) page
-2. ```flatpak install --user flathub org.freedesktop.Platform//20.08 io.atom.electron.BaseApp/x86_64/stable```
+2. ```flatpak install --user flathub org.freedesktop.Platform//20.08```
 3. ```flatpak install --user --bundle streamlink-twitch-gui.flatpak```
 
 You can then either run it from the cli:
