@@ -34,11 +34,8 @@ Settings > Player > Player Preset > MPV
 
 ## Build the flatpak yourself
 
-*This takes ~30 minutes on a i9-10850k*
-
 ### Requirements
 
-* ~20GB of memory
 * flatpak
 * flatpak-builder
 * git
