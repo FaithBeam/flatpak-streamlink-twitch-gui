@@ -1,6 +1,6 @@
 app-id: io.github.streamlink-twitch-gui
 runtime: org.freedesktop.Platform
-runtime-version: "20.08"
+runtime-version: "21.08"
 sdk: org.freedesktop.Sdk
 command: streamlink-twitch-gui
 finish-args: 
@@ -81,18 +81,15 @@ modules:
         url: https://github.com/mpv-player/mpv
   
   - name: nodejs
-    cleanup:
-        - /include
-        - /share
-        - /app/lib/node_modules/npm/changelogs
-        - /app/lib/node_modules/npm/doc
-        - /app/lib/node_modules/npm/html
-        - /app/lib/node_modules/npm/man
-        - /app/lib/node_modules/npm/scripts
+    no-autogen: true
+    buildsystem: simple
+    build-commands: 
+      - tar -xJvf node-v16.13.0-linux-x64.tar.xz -C /app/ --strip-components=1
     sources:
-      - type: archive
-        url: https://nodejs.org/download/release/v14.16.1/node-v14.16.1.tar.xz
-        sha256: e44adbbed6756c2c1a01258383e9f00df30c147b36e438f6369b5ef1069abac3
+      - type: file
+        url: https://nodejs.org/dist/v16.13.0/node-v16.13.0-linux-x64.tar.xz
+        sha256: a876ce787133149abd1696afa54b0b5bc5ce3d5ae359081d407ff776e39b7ba8
+        dest-filename: node-v16.13.0-linux-x64.tar.xz
 
   - name: streamlink-twitch-gui
     build-options:

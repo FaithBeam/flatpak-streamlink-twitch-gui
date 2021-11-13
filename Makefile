@@ -2,7 +2,7 @@ all:
 	true
 pre-build:
 	flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-	flatpak install flathub org.freedesktop.Sdk//20.08
+	flatpak install flathub org.freedesktop.Sdk//21.08
 build:
 	flatpak-builder --repo=repo streamlink-twitch-gui streamlink-twitch-gui.yaml
 	flatpak build-bundle repo streamlink-twitch-gui.flatpak io.github.streamlink-twitch-gui
